@@ -1,13 +1,8 @@
-import { FC }from "react"
+import { FC } from "react";
 
-interface Props{
+interface Props {}
 
-}
-
- export const ListItem:FC<Props> = () =>{
-  return (
-<> list item</>
-);
-
-}
+export const ListItem: FC<Props> = () => {
+  return <> list item</>;
+};
 export default ListItem;

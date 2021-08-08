@@ -7,77 +7,71 @@ import ShippingIcon from "../../atoms/shipping";
 import ImgCard from "../../molecules/imgCard";
 import Container from "../../atoms/container";
 
-interface Result
-{
-	free_shipping: boolean,
-	state_name: string,
-	currency: string,
-	id: string,
-	items: [{
-		id: string,
-		title: string,
-		free_shipping: boolean,
-	}],
-	price: { amount: number },
-	currency_id: string,
-	address: { state_name: string },
-	shipping: { free_shipping: boolean },
-	picture: string,
+interface Result {
+  free_shipping: boolean;
+  state_name: string;
+  currency: string;
+  id: string;
+  items: [
+    {
+      id: string;
+      title: string;
+      free_shipping: boolean;
+    }
+  ];
+  price: { amount: number };
+  currency_id: string;
+  address: { state_name: string };
+  shipping: { free_shipping: boolean };
+  picture: string;
 }
 
-interface Items
-{
-	id: string
-	title: string
+interface Items {
+  id: string;
+  title: string;
 }
 
 const InnerGrid = styled.div`
-	width: 100%;
+  width: 100%;
 `;
 
-export const Results: FC = (): JSX.Element =>
-{
-	const [articles, setArticles] = useState<Items[]>([]);
-	useEffect(() =>
-	{
-		getDataResults();
-	},[] );
+export const Results: FC = (): JSX.Element => {
+  const [articles, setArticles] = useState<Items[]>([]);
+  useEffect(() => {
+    getDataResults();
+  }, []);
 
-	const getDataResults = async () =>
-	{
-		const url = 'http://localhost:3001/items?search=audio';
-		const res = await fetch(url);
-		
-		const api = await res.json();
- console.log(api)
-		const resSearch = api.map((item:  Result) =>
-			{
-				return {
-					id: item.items[0].id,
-					price: item.price?.amount,
-					currency: item.currency_id,
-					title: item.items[0].title,
-					state_name: item.address?.state_name,
-					thumbnail: item.picture,
-					shipping: item.items[0].free_shipping,
-					free_shipping: item.free_shipping
-				};
-			}
-		);
-		setArticles(resSearch);
-		 
-	};
+  const getDataResults = async () => {
+    const url = "http://localhost:3001/items?search=audio";
+    const res = await fetch(url);
 
-	return (
-		<Container center >
-			<Grid white>
-				<InnerGrid>
-					<ul>
-						{articles?.map((el: Items, key) => 
-						 {
-							return (<p key={el?.id}> { el?.title} </p>)
-						}
-						/* (
+    const api = await res.json();
+    console.log(api);
+    const resSearch = api.map((item: Result) => {
+      return {
+        id: item.items[0].id,
+        price: item.price?.amount,
+        currency: item.currency_id,
+        title: item.items[0].title,
+        state_name: item.address?.state_name,
+        thumbnail: item.picture,
+        shipping: item.items[0].free_shipping,
+        free_shipping: item.free_shipping,
+      };
+    });
+    setArticles(resSearch);
+  };
+
+  return (
+    <Container center>
+      <Grid white>
+        <InnerGrid>
+          <ul>
+            {articles?.map(
+              (el: Items, key) => {
+                return <p key={el?.id}> {el?.title} </p>;
+              }
+              /* (
 								<ListItem key={key}>
 									<Flex flex>
 										
@@ -104,11 +98,11 @@ export const Results: FC = (): JSX.Element =>
 								</ListItem>
 
 							) */
-						)}
-					</ul>
-				</InnerGrid>
-			</Grid>
-		</Container>
-	);
+            )}
+          </ul>
+        </InnerGrid>
+      </Grid>
+    </Container>
+  );
 };
 export default Results;
