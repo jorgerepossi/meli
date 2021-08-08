@@ -17,18 +17,25 @@ interface Result {
       id: string;
       title: string;
       free_shipping: boolean;
+      picture: string;
+      price: {
+        amount: number;
+        currency: string;
+        decimals: number;
+      };
     }
   ];
-  price: { amount: number };
+
   currency_id: string;
   address: { state_name: string };
-  shipping: { free_shipping: boolean };
-  picture: string;
 }
 
 interface Items {
-  id: string;
-  title: string;
+  id?: string;
+  title?: string;
+  thumbnail?: string;
+  price?: number;
+  shipping?: boolean;
 }
 
 const InnerGrid = styled.div`
@@ -50,11 +57,11 @@ export const Results: FC = (): JSX.Element => {
     const resSearch = api.map((item: Result) => {
       return {
         id: item.items[0].id,
-        price: item.price?.amount,
+        price: item.items[0].price.amount,
         currency: item.currency_id,
         title: item.items[0].title,
         state_name: item.address?.state_name,
-        thumbnail: item.picture,
+        thumbnail: item.items[0].picture,
         shipping: item.items[0].free_shipping,
         free_shipping: item.free_shipping,
       };
@@ -68,36 +75,64 @@ export const Results: FC = (): JSX.Element => {
         <InnerGrid>
           <ul>
             {articles?.map(
-              (el: Items, key) => {
-                return <p key={el?.id}> {el?.title} </p>;
-              }
+              (el: Items) => (
+                <ListItem key={el?.id}>
+                  <Flex flex>
+                    <ImgCard
+                      src={el?.thumbnail}
+                      alt={el?.title}
+                      width={180}
+                      height={180}
+                    />
+                    <div>
+                      <p>
+                        {/* <span> {el?.price === 'ARS' ? '$' : 'USD'}</span> */}
+                        <span>
+                          {" "}
+                          {String(el?.price).replace(
+                            /(.)(?=(\d{3})+$)/g,
+                            "$1."
+                          )}
+                        </span>
+                        <span>
+                          {" "}
+                          {el?.shipping === true ? <ShippingIcon /> : ""}{" "}
+                        </span>
+                      </p>
+                    </div>
+                    <div>
+                      <p key={el?.id}> {el?.title} </p>
+                    </div>
+                  </Flex>
+                </ListItem>
+              )
               /* (
-								<ListItem key={key}>
-									<Flex flex>
-										
-									<ImgCard image={el?.picture} alt={el.title} /> 
-										<div>
-											<Flex flex>
-												<div>
-													<p>
-														<span> {el?.currency === 'ARS' ? '$' : 'USD'}</span>
-														<span> {String(el?.price).replace(/(.)(?=(\d{3})+$)/g, "$1.")}</span>
-														<span> {el?.shipping?.free_shipping === true ? <ShippingIcon /> : ''} </span>
-													</p>
-												</div>
-												<div>
-													<p> {el?.state_name} </p>
-												</div>
-											</Flex>
-											<Flex>
-												<p> {el?.items[0].title} </p>
-											</Flex>
-
-										</div>
-									</Flex>
-								</ListItem>
-
-							) */
+											  <ListItem key={key}>
+												  <Flex flex>
+												  	
+												  <ImgCard image={el?.picture} alt={el.title} /> 
+													  <div>
+														  <Flex flex>
+															  <div>
+																  <p>
+																	  <span> {el?.currency === 'ARS' ? '$' : 'USD'}</span>
+																	  <span> {String(el?.price).replace(/(.)(?=(\d{3})+$)/g, "$1.")}</span>
+																	  <span> {el?.shipping?.free_shipping === true ? <ShippingIcon /> : ''} </span>
+																  </p>
+															  </div>
+															  <div>
+																  <p> {el?.state_name} </p>
+															  </div>
+														  </Flex>
+														  <Flex>
+															  <p> {el?.items[0].title} </p>
+														  </Flex>
+			  
+													  </div>
+												  </Flex>
+											  </ListItem>
+			  
+										  ) */
             )}
           </ul>
         </InnerGrid>

@@ -1,0 +1,35 @@
+0 info it worked if it ends with ok
+1 verbose cli [
+1 verbose cli   '/Users/jorgeluisrepossi/.nvm/versions/node/v12.13.0/bin/node',
+1 verbose cli   '/Users/jorgeluisrepossi/.nvm/versions/node/v12.13.0/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'eslint',
+1 verbose cli   '--cache',
+1 verbose cli   '--fix'
+1 verbose cli ]
+2 info using npm@6.12.0
+3 info using node@v12.13.0
+4 verbose stack Error: missing script: eslint
+4 verbose stack
+4 verbose stack Did you mean this?
+4 verbose stack     lint
+4 verbose stack     at run (/Users/jorgeluisrepossi/.nvm/versions/node/v12.13.0/lib/node_modules/npm/lib/run-script.js:155:19)
+4 verbose stack     at /Users/jorgeluisrepossi/.nvm/versions/node/v12.13.0/lib/node_modules/npm/lib/run-script.js:63:5
+4 verbose stack     at /Users/jorgeluisrepossi/.nvm/versions/node/v12.13.0/lib/node_modules/npm/node_modules/read-package-json/read-json.js:116:5
+4 verbose stack     at /Users/jorgeluisrepossi/.nvm/versions/node/v12.13.0/lib/node_modules/npm/node_modules/read-package-json/read-json.js:435:5
+4 verbose stack     at checkBinReferences_ (/Users/jorgeluisrepossi/.nvm/versions/node/v12.13.0/lib/node_modules/npm/node_modules/read-package-json/read-json.js:391:45)
+4 verbose stack     at final (/Users/jorgeluisrepossi/.nvm/versions/node/v12.13.0/lib/node_modules/npm/node_modules/read-package-json/read-json.js:433:3)
+4 verbose stack     at then (/Users/jorgeluisrepossi/.nvm/versions/node/v12.13.0/lib/node_modules/npm/node_modules/read-package-json/read-json.js:161:5)
+4 verbose stack     at /Users/jorgeluisrepossi/.nvm/versions/node/v12.13.0/lib/node_modules/npm/node_modules/read-package-json/read-json.js:382:12
+4 verbose stack     at /Users/jorgeluisrepossi/.nvm/versions/node/v12.13.0/lib/node_modules/npm/node_modules/graceful-fs/graceful-fs.js:115:16
+4 verbose stack     at FSReqCallback.readFileAfterClose [as oncomplete] (internal/fs/read_file_context.js:61:3)
+5 verbose cwd /Users/jorgeluisrepossi/Documents/Proyectos/React/meli
+6 verbose Darwin 20.5.0
+7 verbose argv "/Users/jorgeluisrepossi/.nvm/versions/node/v12.13.0/bin/node" "/Users/jorgeluisrepossi/.nvm/versions/node/v12.13.0/bin/npm" "run" "eslint" "--cache" "--fix"
+8 verbose node v12.13.0
+9 verbose npm  v6.12.0
+10 error missing script: eslint
+10 error
+10 error Did you mean this?
+10 error     lint
+11 verbose exit [ 1, true ]

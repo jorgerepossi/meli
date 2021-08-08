@@ -8,3 +8,9 @@ module.exports = {
     domains: ['http2.mlstatic.com'],
   },
 }
+
+module.exports = {
+  eslint: {
+    dirs: ['pages'],
+  },
+}

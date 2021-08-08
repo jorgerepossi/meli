@@ -1,16 +1,18 @@
 import { FC } from "react";
 import Box from "./../../atoms/box/";
-import Image from "next/image";
+import NextImage from "../../atoms/nextimage";
 
 interface Props {
-  image: string;
+  src: string | undefined;
   alt?: string;
+  width?: number;
+  height?: number;
 }
 
-export const ImgCard: FC<Props> = ({ image, alt }) => {
+export const ImgCard: FC<Props> = ({ src = "", alt }) => {
   return (
     <Box>
-      <Image src={image} alt={alt} width={180} height={180} title={alt} />
+      <NextImage src={src} alt={alt} width={180} height={180} title={alt} />
     </Box>
   );
 };

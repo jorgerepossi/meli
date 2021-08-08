@@ -1,28 +1,44 @@
 {
-  "name": "meli",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "prepare": "husky install",
-    "format": "prettier --write pages src"
-  },
-  "dependencies": {
-    "next": "11.0.1",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "styled-components": "^5.3.0"
-  },
-  "devDependencies": {
-    "@types/react": "17.0.15",
-    "@types/styled-components": "^5.1.12",
-    "eslint": "7.32.0",
-    "eslint-config-next": "11.0.1",
-    "husky": "^7.0.1",
-    "prettier": "^2.3.2",
-    "typescript": "4.3.5"
-  }
+	"name": "meli",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint",
+		"prepare": "husky install",
+		"pre-commit": "lint-staged",
+		"format": "prettier --write pages src"
+	},
+	"dependencies": {
+		"next": "11.0.1",
+		"react": "17.0.2",
+		"react-dom": "17.0.2",
+		"styled-components": "^5.3.0"
+	},
+	"devDependencies": {
+		"@types/react": "17.0.15",
+		"@types/styled-components": "^5.1.12",
+		"eslint": "7.32.0",
+		"eslint-config-next": "11.0.1",
+		"husky": "^7.0.1",
+		"lint-staged": "^11.1.2",
+		"prettier": "^2.3.2",
+		"typescript": "4.3.5"
+	},
+	"engines": {
+		"node": "12.13.0"
+	},
+	"lint-staged": {
+		"*.{ts,tsx,js}": [
+			"npm run format",
+			"npm run lint",
+			"npm run test"
+		],
+		"*.js": "eslint --cache --fix",
+		"*.json": "eslint --cache --fix",
+		"*.src": "prettier --write",
+		"*.pages": "prettier --write"
+	}
 }
