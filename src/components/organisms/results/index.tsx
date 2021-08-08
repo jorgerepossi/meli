@@ -1,0 +1,114 @@
+import { FC, useEffect, useState } from "react";
+import styled from "styled-components";
+import Flex from "../../atoms/flex";
+import Grid from "../../atoms/grid";
+import ListItem from "../../atoms/list/";
+import ShippingIcon from "../../atoms/shipping";
+import ImgCard from "../../molecules/imgCard";
+import Container from "../../atoms/container";
+
+interface Result
+{
+	free_shipping: boolean,
+	state_name: string,
+	currency: string,
+	id: string,
+	items: [{
+		id: string,
+		title: string,
+		free_shipping: boolean,
+	}],
+	price: { amount: number },
+	currency_id: string,
+	address: { state_name: string },
+	shipping: { free_shipping: boolean },
+	picture: string,
+}
+
+interface Items
+{
+	id: string
+	title: string
+}
+
+const InnerGrid = styled.div`
+	width: 100%;
+`;
+
+export const Results: FC = (): JSX.Element =>
+{
+	const [articles, setArticles] = useState<Items[]>([]);
+	useEffect(() =>
+	{
+		getDataResults();
+	},[] );
+
+	const getDataResults = async () =>
+	{
+		const url = 'http://localhost:3001/items?search=audio';
+		const res = await fetch(url);
+		
+		const api = await res.json();
+ console.log(api)
+		const resSearch = api.map((item:  Result) =>
+			{
+				return {
+					id: item.items[0].id,
+					price: item.price?.amount,
+					currency: item.currency_id,
+					title: item.items[0].title,
+					state_name: item.address?.state_name,
+					thumbnail: item.picture,
+					shipping: item.items[0].free_shipping,
+					free_shipping: item.free_shipping
+				};
+			}
+		);
+		setArticles(resSearch);
+		 
+	};
+
+	return (
+		<Container center >
+			<Grid white>
+				<InnerGrid>
+					<ul>
+						{articles?.map((el: Items, key) => 
+						 {
+							return (<p key={el?.id}> { el?.title} </p>)
+						}
+						/* (
+								<ListItem key={key}>
+									<Flex flex>
+										
+									<ImgCard image={el?.picture} alt={el.title} /> 
+										<div>
+											<Flex flex>
+												<div>
+													<p>
+														<span> {el?.currency === 'ARS' ? '$' : 'USD'}</span>
+														<span> {String(el?.price).replace(/(.)(?=(\d{3})+$)/g, "$1.")}</span>
+														<span> {el?.shipping?.free_shipping === true ? <ShippingIcon /> : ''} </span>
+													</p>
+												</div>
+												<div>
+													<p> {el?.state_name} </p>
+												</div>
+											</Flex>
+											<Flex>
+												<p> {el?.items[0].title} </p>
+											</Flex>
+
+										</div>
+									</Flex>
+								</ListItem>
+
+							) */
+						)}
+					</ul>
+				</InnerGrid>
+			</Grid>
+		</Container>
+	);
+};
+export default Results;
