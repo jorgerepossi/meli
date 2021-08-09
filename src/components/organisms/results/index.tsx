@@ -96,14 +96,12 @@ export const Results: FC<Items> = (): JSX.Element => {
                       <p>
                         {/* <span> {el?.price === 'ARS' ? '$' : 'USD'}</span> */}
                         <span>
-                         
                           {String(el?.price).replace(
                             /(.)(?=(\d{3})+$)/g,
                             "$1."
                           )}
                         </span>
                         <span>
-                         
                           {el?.shipping === true ? <ShippingIcon /> : ""}{" "}
                         </span>
                       </p>

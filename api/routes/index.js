@@ -8,29 +8,43 @@ router.get("/items/:id", async (req, res) => {
     try {
 
         const items = "https://api.mercadolibre.com/items/" + req.params.id;
-
-        const itemsUrl = items;
-        const response = await fetch(itemsUrl);
+        const response = await fetch(items);
         const data = await response.json();
 
-        console.log(response)
-        console.log(data)
+        // description
+        const itemsDescription= ("https://api.mercadolibre.com/items/" + req.params.id + "/description");
+        const responseItemDescription = await fetch(itemsDescription);
+        const description = await responseItemDescription.json();
 
-        const mapItem = Object.entries(data).map(id => id);
-        const uno = mapItem.filter(({ id }) => {
-            return {
-                author: {
-                    name: "Jorge",
-                    lastname: "Repossi",
-                },
-                item: [
-                    {
-                        id: id
-                    }
-                ]
-            }
+
+        console.log(itemsDescription)
+
+        console.log(description)
+        //console.log(data)
+
+        
+        res.send({
+            author: {
+                name: "Jorge",
+                lastname: "Repossi",
+            },
+            item:
+            {
+                id: data.id,
+                title: data.title
+            },
+            price: {
+                currency: data.currency_id,
+                amount: getPrice(data.price),
+                decimals: getSplitResult(data.price),
+            },
+            picture: data.pictures[0].url,
+            condition: data.condition,
+            shipping: data.shipping.free_shipping,
+            sold_quantity: data.sold_quantity,
+            description: description.plain_text,
+
         })
-        res.send(uno)
     } catch (error) {
         console.log(error);
     }
