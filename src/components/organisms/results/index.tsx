@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/link-passhref */
 import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -7,6 +8,7 @@ import ListItem from "../../atoms/list/";
 import ShippingIcon from "../../atoms/shipping";
 import ImgCard from "../../molecules/imgCard";
 import Container from "../../atoms/container";
+import Link from "next/link";
 
 interface Result {
   free_shipping: boolean;
@@ -89,24 +91,29 @@ export const Results: FC<Items> = (): JSX.Element => {
                       width={180}
                       height={180}
                     />
+
                     <div>
                       <p>
                         {/* <span> {el?.price === 'ARS' ? '$' : 'USD'}</span> */}
                         <span>
-                          {" "}
+                         
                           {String(el?.price).replace(
                             /(.)(?=(\d{3})+$)/g,
                             "$1."
                           )}
                         </span>
                         <span>
-                          {" "}
+                         
                           {el?.shipping === true ? <ShippingIcon /> : ""}{" "}
                         </span>
                       </p>
                     </div>
                     <div>
-                      <p key={el?.id}> {el?.title} </p>
+                      <Link href={`items/${el?.id}`}>
+                        <a>
+                          <p key={el?.id}> {el?.title} </p>
+                        </a>
+                      </Link>
                     </div>
                   </Flex>
                 </ListItem>

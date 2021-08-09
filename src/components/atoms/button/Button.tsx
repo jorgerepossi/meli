@@ -10,13 +10,14 @@ interface NextLink {
   alt?: string;
   title?: string;
   href?: string;
+  blank?: string;
 }
 
 const Button: FC<Props> = ({ onClick, children }) => {
   return <button onClick={onClick}>{children}</button>;
 };
 
-const SearchButton: FC<NextLink> = ({ children, title, href }) => {
+const SearchButton: FC<NextLink> = ({ children, title, href, blank }) => {
   const [state, setState] = useState(href);
   useEffect(() => {
     setState(href);
@@ -24,7 +25,13 @@ const SearchButton: FC<NextLink> = ({ children, title, href }) => {
 
   return (
     <Link href={state || "#"}>
-      <a title={title}>{children}</a>
+      <a
+        title={title}
+        target={blank ? "_blank" : ""}
+        rel={blank ? "noopener noreferrer" : ""}
+      >
+        {children}
+      </a>
     </Link>
   );
 };
