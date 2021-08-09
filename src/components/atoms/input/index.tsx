@@ -1,30 +1,28 @@
-import { ChangeEvent, FC, useState } from "react";
-import Button from "../button";
-import { useRouter } from "next/router";
-interface Props {}
+import { ChangeEvent, FC } from "react";
 
-export const Input: FC<Props> = () => {
-  const router = useRouter();
-  const [state, setState] = useState("");
+interface Props {
+  placeholder?: string;
+  type?: string;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  name?: string;
+}
 
-  const getValue = (e: ChangeEvent<HTMLInputElement>) =>
-    setState(e.target.value);
-
-  const sendSearch = () => {
-    router.push(`/items/search=${state}`);
-    //console.log(state)
-    //blabla?search=`${params.algo}`
-  };
-
+export const Input: FC<Props> = ({
+  placeholder,
+  onChange,
+  type,
+  value,
+  name,
+}): JSX.Element => {
   return (
-    <>
-      <input
-        type="text"
-        placeholder="Nunca dejes de buscar "
-        onChange={getValue}
-      />
-      <Button onClick={sendSearch} />
-    </>
+    <input
+      type={type}
+      placeholder={placeholder}
+      onChange={onChange}
+      value={value}
+      name={name}
+    />
   );
 };
 export default Input;

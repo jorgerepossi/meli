@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import Flex from "../../atoms/flex";
@@ -36,24 +37,22 @@ interface Items {
   thumbnail?: string;
   price?: number;
   shipping?: boolean;
+  search?: string;
 }
 
 const InnerGrid = styled.div`
   width: 100%;
 `;
 
-export const Results: FC = (): JSX.Element => {
+export const Results: FC<Items> = (): JSX.Element => {
   const [articles, setArticles] = useState<Items[]>([]);
-  useEffect(() => {
-    getDataResults();
-  }, []);
+  const { query } = useRouter();
 
-  const getDataResults = async () => {
-    const url = "http://localhost:3001/items?search=audio";
-    const res = await fetch(url);
+  const getServerSideProps = async () => {
+    const requestUrl = `${process.env.REACT_APP_SEARCH}${query.search}`;
 
+    const res = await fetch(requestUrl);
     const api = await res.json();
-    console.log(api);
     const resSearch = api.map((item: Result) => {
       return {
         id: item.items[0].id,
@@ -68,6 +67,12 @@ export const Results: FC = (): JSX.Element => {
     });
     setArticles(resSearch);
   };
+
+  useEffect(() => {
+    if (query.search) {
+      getServerSideProps();
+    }
+  }, [query?.search]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Container center>
