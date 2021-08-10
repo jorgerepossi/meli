@@ -30,7 +30,6 @@ interface Result {
     }
   ];
 
-  currency_id: string;
   address: { state_name: string };
 }
 
@@ -41,6 +40,7 @@ interface Items {
   price?: number;
   shipping?: boolean;
   search?: string;
+  currency?: string;
 }
 
 const InnerGrid = styled.div`
@@ -60,7 +60,7 @@ export const Results: FC<Items> = (): JSX.Element => {
       return {
         id: item.items[0].id,
         price: item.items[0].price.amount,
-        currency: item.currency_id,
+        currency: item.items[0].price.currency,
         title: item.items[0].title,
         state_name: item.address?.state_name,
         thumbnail: item.items[0].picture,
@@ -93,10 +93,9 @@ export const Results: FC<Items> = (): JSX.Element => {
                       width={180}
                       height={180}
                     />
-
                     <div>
                       <p>
-                        {/* <span> {el?.price === 'ARS' ? '$' : 'USD'}</span> */}
+                        <span> {el?.currency === "ARS" ? "$" : "USD"}</span>
                         <span>
                           {String(el?.price).replace(
                             /(.)(?=(\d{3})+$)/g,
@@ -111,7 +110,8 @@ export const Results: FC<Items> = (): JSX.Element => {
                     <div>
                       <Link href={`items/${el?.id}`}>
                         <a>
-                          <p key={el?.id}> {el?.title} </p>
+                          {" "}
+                          <p key={el?.id}> {el?.title} </p>{" "}
                         </a>
                       </Link>
                     </div>
