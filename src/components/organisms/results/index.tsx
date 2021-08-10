@@ -14,13 +14,12 @@ import EmptyResult from "../../molecules/empty";
 import BreadcrumbList from "../breadcrumbList/BreadcrumbList";
 import { MediumText, SmallPrice } from "../../atoms/typography";
 
-interface Result
-{
+interface Result {
   free_shipping: boolean;
   state_name: string;
   currency: string;
   id: string;
-  categories: Array<string>,
+  categories: Array<string>;
   items: [
     {
       id: string;
@@ -38,8 +37,7 @@ interface Result
   address: string;
 }
 
-interface Items
-{
+interface Items {
   id?: string;
   title?: string;
   thumbnail?: string;
@@ -47,23 +45,20 @@ interface Items
   shipping?: boolean;
   search?: string;
   currency?: string;
-  categories?: string,
-  address?: string
+  categories?: string;
+  address?: string;
 }
 
-export const Results: FC<Items> = (): JSX.Element =>
-{
+export const Results: FC<Items> = (): JSX.Element => {
   const [articles, setArticles] = useState<Items[]>([]);
   const { query } = useRouter();
 
-  const getServerSideProps = async () =>
-  {
-    const requestUrl = `${ process.env.REACT_APP_SEARCH }${ query.search }`;
+  const getServerSideProps = async () => {
+    const requestUrl = `${process.env.REACT_APP_SEARCH}${query.search}`;
 
     const res = await fetch(requestUrl);
     const api = await res.json();
-    const resSearch = api.map((item: Result) =>
-    {
+    const resSearch = api.map((item: Result) => {
       return {
         id: item.items[0].id,
         price: item.items[0].price.amount,
@@ -79,8 +74,7 @@ export const Results: FC<Items> = (): JSX.Element =>
     setArticles(resSearch);
   };
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     if (query.search) {
       getServerSideProps();
     }
@@ -88,25 +82,15 @@ export const Results: FC<Items> = (): JSX.Element =>
 
   return (
     <>
-
-
       <BreadcrumbList>
-        <ul>
-
-
-
-          {/* articles.categories[0] */}
-        </ul>
+        <ul>{/* articles.categories[0] */}</ul>
       </BreadcrumbList>
       <Container center>
         <Grid white>
           <InnerGrid>
             <ul>
-
               {articles.length !== 0 ? (
-
                 articles?.map((el: Items) => (
-
                   <ListItem key={el?.id}>
                     <Flex flex>
                       <ImgCard
@@ -114,35 +98,42 @@ export const Results: FC<Items> = (): JSX.Element =>
                         alt={el?.title}
                         width={180}
                         height={180}
-                        style={ { borderRadius: 4 } }
+                        style={{ borderRadius: 4 }}
                       />
                       <InfoWrapper>
                         <div>
-                          <Flex flex style={{ justifyContent: 'space-between' }}>
+                          <Flex
+                            flex
+                            style={{ justifyContent: "space-between" }}
+                          >
                             <div className="space__big--bottom small__space--top">
                               <Flex flex>
-                              <SmallPrice className="small__space">
-                                <span className="small__space"> {el?.currency === "ARS" ? "$" : "USD"}</span>
+                                <SmallPrice className="small__space">
+                                  <span className="small__space">
+                                    {" "}
+                                    {el?.currency === "ARS" ? "$" : "USD"}
+                                  </span>
+                                  <span>
+                                    {String(el?.price).replace(
+                                      /(.)(?=(\d{3})+$)/g,
+                                      "$1."
+                                    )}
+                                  </span>
+                                </SmallPrice>
                                 <span>
-                                  {String(el?.price).replace(
-                                    /(.)(?=(\d{3})+$)/g,
-                                    "$1."
-                                  )}
-                                </span>
-                              </SmallPrice>
-                                <span>
-                                  {el?.shipping === true ? <ShippingIcon /> : ""}{" "}
+                                  {el?.shipping === true ? (
+                                    <ShippingIcon />
+                                  ) : (
+                                    ""
+                                  )}{" "}
                                 </span>
                               </Flex>
-
                             </div>
-                            <div className="info__block">
-                              {el?.address}
-                            </div>
+                            <div className="info__block">{el?.address}</div>
                           </Flex>
                         </div>
                         <div>
-                          <Link href={`items/${ el?.id }`}>
+                          <Link href={`items/${el?.id}`}>
                             <a className="black__color">
                               <MediumText> {el?.title} </MediumText>
                             </a>
@@ -168,34 +159,31 @@ const InnerGrid = styled.div`
 `;
 
 const InfoWrapper = styled.div`
-flex: 1;
-margin-right: ${ margin => margin.theme.margin.small };
-.black__color{
-  color: ${color => color.theme.colors.black};
-  text-decoration: none;
-}
-.info__block{
-  width: 100%;
-  max-width: 200px;
-}
+  flex: 1;
+  margin-right: ${(margin) => margin.theme.margin.small};
+  .black__color {
+    color: ${(color) => color.theme.colors.black};
+    text-decoration: none;
+  }
+  .info__block {
+    width: 100%;
+    max-width: 200px;
+  }
 
-
-.small__space{
-  margin-right: ${ (margin) => margin.theme.margin.small};
-  &--top {
-    margin-top: ${ (margin) => margin.theme.margin.small};
-}
-}
-.space__big {
+  .small__space {
+    margin-right: ${(margin) => margin.theme.margin.small};
     &--top {
-      margin-top: ${ (margin) => margin.theme.margin.large };
+      margin-top: ${(margin) => margin.theme.margin.small};
+    }
+  }
+  .space__big {
+    &--top {
+      margin-top: ${(margin) => margin.theme.margin.large};
     }
     &--bottom {
-      margin-bottom: ${ (margin) => margin.theme.margin.large };
+      margin-bottom: ${(margin) => margin.theme.margin.large};
     }
-    }
-`
-
-
+  }
+`;
 
 export default Results;

@@ -1,25 +1,19 @@
-import { FC, ReactNode } from "react"
-import Container from "../../atoms/container"
-import Grid from "../../atoms/grid"
+import { FC, ReactNode } from "react";
+import Container from "../../atoms/container";
+import Grid from "../../atoms/grid";
 import styled from "styled-components";
 
-interface Props
-{
-  children?: ReactNode
+interface Props {
+  children?: ReactNode;
 }
 
-export const BreadcrumbList: FC<Props> = ({ children }):JSX.Element =>
-{
+export const BreadcrumbList: FC<Props> = ({ children }): JSX.Element => {
   return (
     <Container center>
-      <Grid>
-      {children}
-      </Grid>
-      </Container>
+      <Grid>{children}</Grid>
+    </Container>
   );
-
-}
-
+};
 
 const BreadcrumbWrapper = styled.section`
   margin: ${(margin) => margin.theme.margin.small} 0;

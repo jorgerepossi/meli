@@ -15,7 +15,6 @@ export const MediumText = styled.p`
   font-size: ${(props) => props.theme.typography.typo18};
 `;
 
-
 export const Text = styled.p`
   word-break: break-word;
   font-size: ${(props) => props.theme.typography.typo16};
