@@ -5,7 +5,7 @@ export const Theme = {
     dark: "#666666",
     grey: "#999999",
     light: "#EEEEEE",
-    blue: "#3493FA",
+    blue: "#3483FA",
   },
   margin: {
     small: "16px",

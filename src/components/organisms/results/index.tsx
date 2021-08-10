@@ -9,6 +9,7 @@ import ShippingIcon from "../../atoms/shipping";
 import ImgCard from "../../molecules/imgCard";
 import Container from "../../atoms/container";
 import Link from "next/link";
+import EmptyResult from "../../molecules/empty";
 
 interface Result {
   free_shipping: boolean;
@@ -81,8 +82,9 @@ export const Results: FC<Items> = (): JSX.Element => {
       <Grid white>
         <InnerGrid>
           <ul>
-            {articles?.map(
-              (el: Items) => (
+            {console.log(articles.length)}
+            {articles.length !== 0 ? (
+              articles?.map((el: Items) => (
                 <ListItem key={el?.id}>
                   <Flex flex>
                     <ImgCard
@@ -115,8 +117,18 @@ export const Results: FC<Items> = (): JSX.Element => {
                     </div>
                   </Flex>
                 </ListItem>
-              )
-              /* (
+              ))
+            ) : (
+              <EmptyResult info="Lo Sentimos, No se han encontrdo resultados para lo que estás buscando..." />
+            )}
+          </ul>
+        </InnerGrid>
+      </Grid>
+    </Container>
+  );
+};
+export default Results;
+/* (
 											  <ListItem key={key}>
 												  <Flex flex>
 												  	
@@ -143,11 +155,3 @@ export const Results: FC<Items> = (): JSX.Element => {
 											  </ListItem>
 			  
 										  ) */
-            )}
-          </ul>
-        </InnerGrid>
-      </Grid>
-    </Container>
-  );
-};
-export default Results;

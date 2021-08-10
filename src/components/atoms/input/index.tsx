@@ -1,4 +1,5 @@
 import { ChangeEvent, FC } from "react";
+import styled from "styled-components";
 
 interface Props {
   placeholder?: string;
@@ -16,7 +17,7 @@ export const Input: FC<Props> = ({
   name,
 }): JSX.Element => {
   return (
-    <input
+    <InputWrapper
       type={type}
       placeholder={placeholder}
       onChange={onChange}
@@ -25,4 +26,10 @@ export const Input: FC<Props> = ({
     />
   );
 };
+
+const InputWrapper = styled.input`
+  border: transparent;
+  width: 100%;
+  padding: 0 ${(margin) => margin.theme.margin.small};
+`;
 export default Input;

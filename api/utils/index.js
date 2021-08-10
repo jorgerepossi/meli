@@ -9,7 +9,7 @@ const getPrice = (param) => {
 const getSplitResult = (param) => {
   let priceToString = String(param);
   let priceSplit = priceToString.split(".");
-  return Number(priceSplit[1]) > 0 ? Number(priceSplit[1]) : 0;
+  return Number(priceSplit[1]) > 0 ? Number(priceSplit[1]) : '00';
 };
 
 

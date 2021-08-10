@@ -1,9 +1,10 @@
 import Link from "next/link";
 import React, { FC, ReactNode, useState, useEffect } from "react";
-
+import styled, { css } from "styled-components";
 interface Props {
   children?: ReactNode;
   onClick?: () => void;
+  primary?: boolean;
 }
 
 interface NextLink {
@@ -13,11 +14,20 @@ interface NextLink {
   blank?: string;
 }
 
-const Button: FC<Props> = ({ onClick, children }) => {
-  return <button onClick={onClick}>{children}</button>;
+export const Button: FC<Props> = ({ onClick, children, primary }) => {
+  return (
+    <ButtonWrapper onClick={onClick} primary={primary}>
+      {children}
+    </ButtonWrapper>
+  );
 };
 
-const SearchButton: FC<NextLink> = ({ children, title, href, blank }) => {
+export const SearchButton: FC<NextLink> = ({
+  children,
+  title,
+  href,
+  blank,
+}) => {
   const [state, setState] = useState(href);
   useEffect(() => {
     setState(href);
@@ -35,4 +45,27 @@ const SearchButton: FC<NextLink> = ({ children, title, href, blank }) => {
     </Link>
   );
 };
-export { Button, SearchButton };
+
+export const ButtonWrapper = styled.button<Props>`
+  border-color: transparent;
+  width: 100%;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+  ${({ primary }) =>
+    primary &&
+    css`
+      background-color: ${(primary) => primary.theme.colors.blue};
+      border-radius: 5px;
+      color: white;
+      transition: box-shadow 0.25s ease-out, background-color 0.2s ease-out;
+      box-shadow: 0 0 0 0 #fff;
+      &:hover {
+        background-color: #2968c8;
+      }
+    `}
+`;
+
+//export { Button, SearchButton };
