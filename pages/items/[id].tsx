@@ -17,7 +17,6 @@ export const Item: FC = (): JSX.Element => {
         />
       </Head>
       <Layout>
-        
         <ItemProd />
       </Layout>
     </ThemeProvider>

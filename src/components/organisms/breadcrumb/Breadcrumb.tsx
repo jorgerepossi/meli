@@ -3,15 +3,12 @@ import Container from "../../atoms/container";
 import Grid from "../../atoms/grid";
 import styled from "styled-components";
 
+interface Props {
+  category?: string;
+  name?: string;
+}
 
-interface Props
-{
-  category?: string
-  name?: string
- }
-
-
-export const Breadcrumb: FC<Props> = ({ category, name}) => {
+export const Breadcrumb: FC<Props> = ({ category, name }) => {
   return (
     <Container center>
       <Grid>
@@ -19,8 +16,8 @@ export const Breadcrumb: FC<Props> = ({ category, name}) => {
           <ul className="related-search__list">
             <li className="related-search__list--item"> Inicio</li>
             <li className="related-search__list--item"> {category}</li>
-            <li className="related-search__list--item"> { name }</li>
-        </ul>
+            <li className="related-search__list--item"> {name}</li>
+          </ul>
         </BreadcrumbWrapper>
       </Grid>
     </Container>
@@ -29,28 +26,26 @@ export const Breadcrumb: FC<Props> = ({ category, name}) => {
 
 const BreadcrumbWrapper = styled.section`
   margin: ${(margin) => margin.theme.margin.small} 0;
-  .related-search__list{
+  .related-search__list {
     display: flex;
     font-weight: 400;
-    color: ${color => color.theme.colors.dark};
-    &--item{
+    color: ${(color) => color.theme.colors.dark};
+    &--item {
       margin-right: ${(margin) => margin.theme.margin.small};
       text-overflow: ellipsis;
       overflow: hidden;
-      &:last-child{
-        color: ${color => color.theme.colors.black};
+      &:last-child {
+        color: ${(color) => color.theme.colors.black};
         font-weight: 700;
       }
       :not(:last-child) {
-        &::after{
-          content: ' -';
+        &::after {
+          content: " -";
           margin-left: 10px;
-
         }
-}
+      }
     }
   }
 `;
-
 
 export default Breadcrumb;
