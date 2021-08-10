@@ -10,7 +10,6 @@ export const NormalText = styled.p`
   font-size: ${(props) => props.theme.typography.typo14};
 `;
 
-
 export const Text = styled.p`
   word-break: break-word;
   font-size: ${(props) => props.theme.typography.typo16};
