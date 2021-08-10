@@ -1,5 +1,4 @@
 import { ThemeProvider } from "styled-components";
-//import Layout from "../src/components/templates/Layout";
 import { Theme } from "./../src/themes";
 import Head from "next/head";
 import dynamic from "next/dynamic";

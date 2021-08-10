@@ -23,6 +23,7 @@ export const Input: FC<Props> = ({
       onChange={onChange}
       value={value}
       name={name}
+      autoComplete="off"
     />
   );
 };

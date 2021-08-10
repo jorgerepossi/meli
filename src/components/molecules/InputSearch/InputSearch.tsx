@@ -13,13 +13,12 @@ export const InputSearch: FC = () => {
   return (
     <div style={{ flex: 1 }}>
       <Flex flex>
-        {" "}
         <Input
           placeholder="Nunca dejes de buscar"
           type="text"
           name="as_search"
           onChange={getValue}
-        />{" "}
+        />
         <SearchButton href={`/items?search=${state}`}>
           <SearchIcon />
         </SearchButton>
