@@ -3,9 +3,8 @@ import Container from "../../atoms/container";
 import Grid from "../../atoms/grid";
 import styled from "styled-components";
 
-interface Props
-{
-  home?: string
+interface Props {
+  home?: string;
   category?: string;
   name?: string;
 }
@@ -16,7 +15,7 @@ export const Breadcrumb: FC<Props> = ({ category, name, home }) => {
       <Grid>
         <BreadcrumbWrapper>
           <ul className="related-search__list">
-            <li className="related-search__list--item"> { home }</li>
+            <li className="related-search__list--item"> {home}</li>
             <li className="related-search__list--item"> {category}</li>
             <li className="related-search__list--item"> {name}</li>
           </ul>
