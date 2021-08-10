@@ -1,7 +1,8 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, CSSProperties } from "react";
 import styled from "styled-components";
 interface Props {
   children: ReactNode;
+  style?: CSSProperties;
 }
 
 const BoxWrapper = styled.div`

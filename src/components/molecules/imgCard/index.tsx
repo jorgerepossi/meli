@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, CSSProperties  } from "react";
 import Box from "./../../atoms/box/";
 import NextImage from "../../atoms/nextimage";
 
@@ -7,17 +7,19 @@ interface Props {
   alt?: string;
   width?: number;
   height?: number;
+  style?: CSSProperties;
 }
 
-export const ImgCard: FC<Props> = ({ src = "", alt }) => {
+export const ImgCard: FC<Props> = ({ src = "", alt, style }) => {
   return (
-    <Box>
+    <Box  style={style}>
       <NextImage
         src={src || " "}
         alt={alt}
         width={180}
         height={180}
         title={alt}
+       
       />
     </Box>
   );

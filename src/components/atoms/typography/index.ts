@@ -5,4 +5,5 @@ export {
   BigTitle,
   BigPrice,
   NormalText,
+  MediumText,
 } from "./Typography";
