@@ -52,7 +52,7 @@ export const ButtonWrapper = styled.button<Props>`
   height: 48px;
   font-size: 16px;
   font-weight: 600;
-margin-top: ${margin=> margin.theme.margin.small};
+  margin-top: ${(margin) => margin.theme.margin.small};
   cursor: pointer;
   ${({ primary }) =>
     primary &&
