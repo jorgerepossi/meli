@@ -80,7 +80,7 @@ export const Results: FC<Items> = (): JSX.Element => {
       getServerSideProps();
     }
   }, [query?.search]); // eslint-disable-line react-hooks/exhaustive-deps
-   
+
   return (
     <>
       <BreadcrumbList>
@@ -90,83 +90,89 @@ export const Results: FC<Items> = (): JSX.Element => {
         <Grid white>
           <InnerGrid>
             <ul>
-              {articles.length !== 0
-                ? articles?.map((el: Items) => (
-                    <ListItem key={el?.id}>
-                      <Flex flex>
-                        <Link href={`items/${el?.id}`}>
-                          <a className="black__color">
-                            <ImgCard
-                              src={el?.thumbnail}
-                              alt={el?.title}
-                              width={180}
-                              height={180}
-                              style={{ borderRadius: 4 }}
-                            />
-                          </a>
-                        </Link>
-                        <InfoWrapper>
-                          <div>
-                            <Flex
-                              flex
-                              style={{ justifyContent: "space-between" }}
-                            >
-                              <div className="space__big--bottom small__space--top">
-                                <Flex flex>
-                                  <SmallPrice className="small__space">
-                                    <Link href={`items/${el?.id}`}>
-                                      <a className="black__color">
-                                        <span className="small__space">
-                                          {el?.currency === "ARS" ? "$" : "USD"}
-                                        </span>
-                                        <span>
-                                          {String(el?.price).replace(
-                                            /(.)(?=(\d{3})+$)/g,
-                                            "$1."
-                                          )}
-                                        </span>
-                                      </a>
-                                    </Link>
-                                  </SmallPrice>
-                                  <span>
-                                    {el?.shipping === true ? (
-                                      <ShippingIcon />
-                                    ) : (
-                                      ""
-                                    )}{" "}
-                                  </span>
-                                </Flex>
-                              </div>
-                              <div className="info__block">{el?.address}</div>
-                            </Flex>
-                          </div>
-                          <div>
-                            <Link href={`items/${el?.id}`}>
-                              <a className="black__color">
-                                <MediumText> {el?.title} </MediumText>
-                                {el?.conditions && (
-                                  <p>
-                                    {el?.conditions === "new"
-                                      ? "Nuevo"
-                                      : el?.conditions === "used"
-                                      ? "Usado"
-                                      : ""}
-                                  </p>
-                                )}
-                              </a>
-                            </Link>
-                          </div>
-                        </InfoWrapper>
-                      </Flex>
-                    </ListItem>
-                  ))
-                : <Container center>
-                <Grid>
-                  <Spinner>
-                    <img src="../../../loading.gif" alt="loading" width="80" />
-                  </Spinner>
-                </Grid>
-              </Container>}
+              {articles.length !== 0 ? (
+                articles?.map((el: Items) => (
+                  <ListItem key={el?.id}>
+                    <Flex flex>
+                      <Link href={`items/${el?.id}`}>
+                        <a className="black__color">
+                          <ImgCard
+                            src={el?.thumbnail}
+                            alt={el?.title}
+                            width={180}
+                            height={180}
+                            style={{ borderRadius: 4 }}
+                          />
+                        </a>
+                      </Link>
+                      <InfoWrapper>
+                        <div>
+                          <Flex
+                            flex
+                            style={{ justifyContent: "space-between" }}
+                          >
+                            <div className="space__big--bottom small__space--top">
+                              <Flex flex>
+                                <SmallPrice className="small__space">
+                                  <Link href={`items/${el?.id}`}>
+                                    <a className="black__color">
+                                      <span className="small__space">
+                                        {el?.currency === "ARS" ? "$" : "USD"}
+                                      </span>
+                                      <span>
+                                        {String(el?.price).replace(
+                                          /(.)(?=(\d{3})+$)/g,
+                                          "$1."
+                                        )}
+                                      </span>
+                                    </a>
+                                  </Link>
+                                </SmallPrice>
+                                <span>
+                                  {el?.shipping === true ? (
+                                    <ShippingIcon />
+                                  ) : (
+                                    ""
+                                  )}{" "}
+                                </span>
+                              </Flex>
+                            </div>
+                            <div className="info__block">{el?.address}</div>
+                          </Flex>
+                        </div>
+                        <div>
+                          <Link href={`items/${el?.id}`}>
+                            <a className="black__color">
+                              <MediumText> {el?.title} </MediumText>
+                              {el?.conditions && (
+                                <p>
+                                  {el?.conditions === "new"
+                                    ? "Nuevo"
+                                    : el?.conditions === "used"
+                                    ? "Usado"
+                                    : ""}
+                                </p>
+                              )}
+                            </a>
+                          </Link>
+                        </div>
+                      </InfoWrapper>
+                    </Flex>
+                  </ListItem>
+                ))
+              ) : (
+                <Container center>
+                  <Grid>
+                    <Spinner>
+                      <img
+                        src="../../../loading.gif"
+                        alt="loading"
+                        width="80"
+                      />
+                    </Spinner>
+                  </Grid>
+                </Container>
+              )}
             </ul>
           </InnerGrid>
         </Grid>
@@ -208,12 +214,10 @@ const InfoWrapper = styled.div`
 `;
 
 const Spinner = styled.div`
- 
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 0 20px;
- 
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0 20px;
 `;
 export default Results;

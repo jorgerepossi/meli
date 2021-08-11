@@ -12,8 +12,7 @@ import Specifications from "../specifications";
 import Container from "../../atoms/container";
 import ProductHeader from "../productheader";
 
-interface Result
-{
+interface Result {
   author: {
     name: "Jorge";
     lastname: "Repossi";
@@ -36,13 +35,10 @@ interface Result
   category_id: string;
 }
 
-export const ItemProd: FC = (): JSX.Element =>
-{
+export const ItemProd: FC = (): JSX.Element => {
   const { product } = useServerSideProps<Result>();
 
-
-  const Shipping = () =>
-  {
+  const Shipping = () => {
     return (
       <div>
         <ShippingIcon /> <span> Entrega a acordar con el vendedor</span>
@@ -50,21 +46,19 @@ export const ItemProd: FC = (): JSX.Element =>
     );
   };
 
-
   if (!product) {
-    return <Container center>
-      <Grid>
-        <Spinner>
-          <img src="../../../../loading.gif" alt="loading" width="80" />
-        </Spinner>
-      </Grid>
-    </Container>
+    return (
+      <Container center>
+        <Grid>
+          <Spinner>
+            <img src="../../../../loading.gif" alt="loading" width="80" />
+          </Spinner>
+        </Grid>
+      </Container>
+    );
   }
   return (
-
     <>
-
-
       <Breadcrumb
         home="Inicio"
         name={product?.item.title}
@@ -89,7 +83,10 @@ export const ItemProd: FC = (): JSX.Element =>
                 <ProductHeader
                   title={product?.item.title}
                   condition={String(product?.condition)}
-                  quantity={String(product?.sold_quantity && product?.sold_quantity ? ` - ${ product?.sold_quantity } vendidos` : ""
+                  quantity={String(
+                    product?.sold_quantity && product?.sold_quantity
+                      ? ` - ${product?.sold_quantity} vendidos`
+                      : ""
                   )}
                 />
 
@@ -99,9 +96,9 @@ export const ItemProd: FC = (): JSX.Element =>
                   price={String(
                     product?.price.amount && product?.price.amount
                       ? String(product?.price.amount).replace(
-                        /(.)(?=(\d{3})+$)/g,
-                        "$1."
-                      )
+                          /(.)(?=(\d{3})+$)/g,
+                          "$1."
+                        )
                       : ""
                   )}
                 />
@@ -118,7 +115,7 @@ export const ItemProd: FC = (): JSX.Element =>
 
 const ContainerProd = styled.div`
   overflow: hidden;
-  margin: ${ (margin) => margin.theme.margin.large };
+  margin: ${(margin) => margin.theme.margin.large};
 
   .ProductWrapper {
     display: grid;
@@ -136,12 +133,12 @@ const ContentWrapper = styled.div`
     grid-column: 1 / span 9;
   }
   .prod__title {
-    margin: ${ (margin) => margin.theme.margin.large } 0;
-    color: ${ (color) => color.theme.colors.black };
+    margin: ${(margin) => margin.theme.margin.large} 0;
+    color: ${(color) => color.theme.colors.black};
   }
   .specifications {
     p {
-      color: ${ (color) => color.theme.colors.grey };
+      color: ${(color) => color.theme.colors.grey};
       line-height: 1.35;
     }
   }
@@ -153,19 +150,19 @@ const PriceWrapper = styled.div`
   }
   .space__big {
     &--top {
-      margin-top: ${ (margin) => margin.theme.margin.large };
+      margin-top: ${(margin) => margin.theme.margin.large};
     }
     &--bottom {
-      margin-bottom: ${ (margin) => margin.theme.margin.large };
+      margin-bottom: ${(margin) => margin.theme.margin.large};
     }
   }
   .space__small {
-    margin-bottom: ${ (margin) => margin.theme.margin.small };
+    margin-bottom: ${(margin) => margin.theme.margin.small};
   }
 
   .prod__price {
     position: relative;
-    margin: ${ (margin) => margin.theme.margin.big };
+    margin: ${(margin) => margin.theme.margin.big};
     &--symbol {
       margin-right: 0.3em;
     }
@@ -181,13 +178,11 @@ const PriceWrapper = styled.div`
 `;
 
 const Spinner = styled.div`
- 
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 0 20px;
- 
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0 20px;
 `;
 
 export default ItemProd;
