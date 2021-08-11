@@ -164,7 +164,7 @@ const PriceWrapper = styled.div`
     position: relative;
     margin: ${(margin) => margin.theme.margin.big};
     &--symbol {
-      margin-right: 0.3em;
+      margin-right: 0.1em;
     }
     &--cents {
       font-size: 0.5em;
