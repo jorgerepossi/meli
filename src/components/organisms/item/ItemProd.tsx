@@ -1,22 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { FC } from "react";
-import Container from "../../atoms/container";
-import Grid from "../../atoms/grid";
+import { FC, useState } from "react";
 import styled from "styled-components";
+import { useServerSideProps } from "../../../hooks/useServerSideProps";
 import { Button } from "../../atoms/button";
-import {
-  BigPrice,
-  BigTitle,
-  NormalText,
-  SmallPrice,
-  Text,
-} from "../../atoms/typography";
+import Grid from "../../atoms/grid";
 import ShippingIcon from "../../atoms/shipping";
 import Breadcrumb from "../breadcrumb";
-import { useServerSideProps } from "../../../hooks/useServerSideProps";
+import ProductPrice from "../productprice";
+import Specifications from "../specifications";
+import Container from "../../atoms/container";
+import ProductHeader from "../productheader";
 
-interface Result {
+interface Result
+{
   author: {
     name: "Jorge";
     lastname: "Repossi";
@@ -24,12 +21,12 @@ interface Result {
 
   item: {
     id: string;
-    title: string | undefined;
+    title: string;
   };
   price: {
-    amount: number | undefined;
-    currency: string | undefined;
-    decimals: number | undefined;
+    amount: number;
+    currency: string;
+    decimals: number;
   };
   picture: string;
   condition: string;
@@ -39,63 +36,35 @@ interface Result {
   category_id: string;
 }
 
-const Shipping = () => {
-  return (
-    <div>
-      <ShippingIcon /> <span> Entrega a acordar con el vendedor</span>
-    </div>
-  );
-};
-
-export const ItemProd: FC = () => {
+export const ItemProd: FC = (): JSX.Element =>
+{
   const { product } = useServerSideProps<Result>();
 
-  const ProductHeader = () => {
+
+  const Shipping = () =>
+  {
     return (
-      <>
-        <div className="space__small">
-          <NormalText>
-            {product?.condition}
-            <span>
-              {product?.sold_quantity
-                ? ` - ${product?.sold_quantity} vendidos`
-                : ""}
-            </span>
-          </NormalText>
-        </div>
-        <SmallPrice className="text__bolder">{product?.item.title}</SmallPrice>
-      </>
+      <div>
+        <ShippingIcon /> <span> Entrega a acordar con el vendedor</span>
+      </div>
     );
   };
 
-  const ProductPrice = () => {
-    return (
-      <>
-        <div className="prod__price space__big space__big--top space__big--bottom">
-          <BigPrice>
-            <span className="prod__price--symbol">
-              {product?.price.currency === "ARS" ? "$" : ""}
-            </span>
-            <span>
-              {product?.price.amount
-                ? String(product?.price.amount).replace(
-                    /(.)(?=(\d{3})+$)/g,
-                    "$1."
-                  )
-                : ""}
-            </span>
-            <span className="prod__price--cents">
-              {product?.price.decimals}
-            </span>
-          </BigPrice>
-          {product?.shipping === true ? <Shipping /> : ""}
-        </div>
-      </>
-    );
-  };
 
+  if (!product) {
+    return <Container center>
+      <Grid>
+        <Spinner>
+          <img src="../../../../loading.gif" alt="loading" width="80" />
+        </Spinner>
+      </Grid>
+    </Container>
+  }
   return (
+
     <>
+
+
       <Breadcrumb
         home="Inicio"
         name={product?.item.title}
@@ -109,18 +78,34 @@ export const ItemProd: FC = () => {
                 <img
                   src={product?.picture || " "}
                   alt={product?.item.title}
-                  width="100%"
+                  width="680"
                 />
-                <div className="specifications">
-                  <BigTitle className="prod__title">
-                    Descripción del Producto
-                  </BigTitle>
-                  <Text>{product?.description}</Text>
-                </div>
+                <Specifications
+                  title="Descripción del Producto"
+                  text={product?.description || undefined}
+                />
               </ContentWrapper>
               <PriceWrapper>
-                <ProductHeader />
-                <ProductPrice />
+                <ProductHeader
+                  title={product?.item.title}
+                  condition={String(product?.condition)}
+                  quantity={String(product?.sold_quantity && product?.sold_quantity ? ` - ${ product?.sold_quantity } vendidos` : ""
+                  )}
+                />
+
+                <ProductPrice
+                  symbol={String(product?.price.currency === "ARS" ? "$" : "")}
+                  decimals={String(product?.price.decimals)}
+                  price={String(
+                    product?.price.amount && product?.price.amount
+                      ? String(product?.price.amount).replace(
+                        /(.)(?=(\d{3})+$)/g,
+                        "$1."
+                      )
+                      : ""
+                  )}
+                />
+                {product?.shipping === true ? <Shipping /> : ""}
                 <Button primary> Comprar</Button>
               </PriceWrapper>
             </div>
@@ -133,7 +118,7 @@ export const ItemProd: FC = () => {
 
 const ContainerProd = styled.div`
   overflow: hidden;
-  margin: ${(margin) => margin.theme.margin.large};
+  margin: ${ (margin) => margin.theme.margin.large };
 
   .ProductWrapper {
     display: grid;
@@ -144,16 +129,19 @@ const ContainerProd = styled.div`
 
 const ContentWrapper = styled.div`
   grid-column: 1 / span 12;
+  img {
+    border-radius: 4px;
+  }
   @media (min-width: 980px) {
     grid-column: 1 / span 9;
   }
   .prod__title {
-    margin: ${(margin) => margin.theme.margin.large} 0;
-    color: ${(color) => color.theme.colors.black};
+    margin: ${ (margin) => margin.theme.margin.large } 0;
+    color: ${ (color) => color.theme.colors.black };
   }
   .specifications {
     p {
-      color: ${(color) => color.theme.colors.grey};
+      color: ${ (color) => color.theme.colors.grey };
       line-height: 1.35;
     }
   }
@@ -165,19 +153,19 @@ const PriceWrapper = styled.div`
   }
   .space__big {
     &--top {
-      margin-top: ${(margin) => margin.theme.margin.large};
+      margin-top: ${ (margin) => margin.theme.margin.large };
     }
     &--bottom {
-      margin-bottom: ${(margin) => margin.theme.margin.large};
+      margin-bottom: ${ (margin) => margin.theme.margin.large };
     }
   }
   .space__small {
-    margin-bottom: ${(margin) => margin.theme.margin.small};
+    margin-bottom: ${ (margin) => margin.theme.margin.small };
   }
 
   .prod__price {
     position: relative;
-    margin: ${(margin) => margin.theme.margin.big};
+    margin: ${ (margin) => margin.theme.margin.big };
     &--symbol {
       margin-right: 0.3em;
     }
@@ -191,4 +179,15 @@ const PriceWrapper = styled.div`
     font-weight: bold;
   }
 `;
+
+const Spinner = styled.div`
+ 
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0 20px;
+ 
+`;
+
 export default ItemProd;

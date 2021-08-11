@@ -7,7 +7,7 @@ interface Props {
 }
 
 const GridWrapper = styled.div<Props>`
-  grid-column: 2 / span 10;
+  grid-column: 1 / span 12;
   background-color: transparent;
   overflow: hidden;
   ${({ white }) =>

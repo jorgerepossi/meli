@@ -1,19 +1,17 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @next/next/link-passhref */
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { FC, useEffect, useState } from "react";
-import styled from "styled-components";
 import Flex from "../../atoms/flex";
 import Grid from "../../atoms/grid";
-import ListItem from "../../atoms/list/";
 import ShippingIcon from "../../atoms/shipping";
-import ImgCard from "../../molecules/imgCard";
-import Container from "../../atoms/container";
-import Link from "next/link";
-import EmptyResult from "../../molecules/empty";
-
-import BreadcrumbList from "../breadcrumbList/BreadcrumbList";
 import { MediumText, SmallPrice } from "../../atoms/typography";
-
+import ImgCard from "../../molecules/imgCard";
+import BreadcrumbList from "../breadcrumbList/BreadcrumbList";
+import ListItem from "../../atoms/list/ListItem";
+import Container from "../../atoms/container";
+import styled from "styled-components";
 interface Result {
   free_shipping: boolean;
   state_name: string;
@@ -24,13 +22,14 @@ interface Result {
     {
       id: string;
       title: string;
-      free_shipping: boolean;
-      picture: string;
       price: {
-        amount: number;
         currency: string;
+        amount: number;
         decimals: number;
       };
+      picture: string;
+      cond: string;
+      free_shipping: boolean;
     }
   ];
 
@@ -47,6 +46,7 @@ interface Items {
   currency?: string;
   categories?: string;
   address?: string;
+  conditions?: string;
 }
 
 export const Results: FC<Items> = (): JSX.Element => {
@@ -69,6 +69,7 @@ export const Results: FC<Items> = (): JSX.Element => {
         shipping: item.items[0].free_shipping,
         free_shipping: item.free_shipping,
         categories: item.categories,
+        conditions: item.items[0].cond,
       };
     });
     setArticles(resSearch);
@@ -79,73 +80,93 @@ export const Results: FC<Items> = (): JSX.Element => {
       getServerSideProps();
     }
   }, [query?.search]); // eslint-disable-line react-hooks/exhaustive-deps
-
+   
   return (
     <>
       <BreadcrumbList>
-        <ul>{/* articles.categories[0] */}</ul>
+        <ul></ul>
       </BreadcrumbList>
       <Container center>
         <Grid white>
           <InnerGrid>
             <ul>
-              {articles.length !== 0 ? (
-                articles?.map((el: Items) => (
-                  <ListItem key={el?.id}>
-                    <Flex flex>
-                      <ImgCard
-                        src={el?.thumbnail}
-                        alt={el?.title}
-                        width={180}
-                        height={180}
-                        style={{ borderRadius: 4 }}
-                      />
-                      <InfoWrapper>
-                        <div>
-                          <Flex
-                            flex
-                            style={{ justifyContent: "space-between" }}
-                          >
-                            <div className="space__big--bottom small__space--top">
-                              <Flex flex>
-                                <SmallPrice className="small__space">
-                                  <span className="small__space">
-                                    {" "}
-                                    {el?.currency === "ARS" ? "$" : "USD"}
-                                  </span>
+              {articles.length !== 0
+                ? articles?.map((el: Items) => (
+                    <ListItem key={el?.id}>
+                      <Flex flex>
+                        <Link href={`items/${el?.id}`}>
+                          <a className="black__color">
+                            <ImgCard
+                              src={el?.thumbnail}
+                              alt={el?.title}
+                              width={180}
+                              height={180}
+                              style={{ borderRadius: 4 }}
+                            />
+                          </a>
+                        </Link>
+                        <InfoWrapper>
+                          <div>
+                            <Flex
+                              flex
+                              style={{ justifyContent: "space-between" }}
+                            >
+                              <div className="space__big--bottom small__space--top">
+                                <Flex flex>
+                                  <SmallPrice className="small__space">
+                                    <Link href={`items/${el?.id}`}>
+                                      <a className="black__color">
+                                        <span className="small__space">
+                                          {el?.currency === "ARS" ? "$" : "USD"}
+                                        </span>
+                                        <span>
+                                          {String(el?.price).replace(
+                                            /(.)(?=(\d{3})+$)/g,
+                                            "$1."
+                                          )}
+                                        </span>
+                                      </a>
+                                    </Link>
+                                  </SmallPrice>
                                   <span>
-                                    {String(el?.price).replace(
-                                      /(.)(?=(\d{3})+$)/g,
-                                      "$1."
-                                    )}
+                                    {el?.shipping === true ? (
+                                      <ShippingIcon />
+                                    ) : (
+                                      ""
+                                    )}{" "}
                                   </span>
-                                </SmallPrice>
-                                <span>
-                                  {el?.shipping === true ? (
-                                    <ShippingIcon />
-                                  ) : (
-                                    ""
-                                  )}{" "}
-                                </span>
-                              </Flex>
-                            </div>
-                            <div className="info__block">{el?.address}</div>
-                          </Flex>
-                        </div>
-                        <div>
-                          <Link href={`items/${el?.id}`}>
-                            <a className="black__color">
-                              <MediumText> {el?.title} </MediumText>
-                            </a>
-                          </Link>
-                        </div>
-                      </InfoWrapper>
-                    </Flex>
-                  </ListItem>
-                ))
-              ) : (
-                <EmptyResult info="Lo Sentimos, No se han encontrdo resultados para lo que estás buscando..." />
-              )}
+                                </Flex>
+                              </div>
+                              <div className="info__block">{el?.address}</div>
+                            </Flex>
+                          </div>
+                          <div>
+                            <Link href={`items/${el?.id}`}>
+                              <a className="black__color">
+                                <MediumText> {el?.title} </MediumText>
+                                {el?.conditions && (
+                                  <p>
+                                    {el?.conditions === "new"
+                                      ? "Nuevo"
+                                      : el?.conditions === "used"
+                                      ? "Usado"
+                                      : ""}
+                                  </p>
+                                )}
+                              </a>
+                            </Link>
+                          </div>
+                        </InfoWrapper>
+                      </Flex>
+                    </ListItem>
+                  ))
+                : <Container center>
+                <Grid>
+                  <Spinner>
+                    <img src="../../../loading.gif" alt="loading" width="80" />
+                  </Spinner>
+                </Grid>
+              </Container>}
             </ul>
           </InnerGrid>
         </Grid>
@@ -186,4 +207,13 @@ const InfoWrapper = styled.div`
   }
 `;
 
+const Spinner = styled.div`
+ 
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0 20px;
+ 
+`;
 export default Results;

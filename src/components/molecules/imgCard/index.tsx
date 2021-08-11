@@ -1,5 +1,5 @@
 import { FC, CSSProperties } from "react";
-import Box from "./../../atoms/box/";
+import Box from "../../atoms/box";
 import NextImage from "../../atoms/nextimage";
 
 interface Props {

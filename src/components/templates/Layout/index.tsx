@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
-import Navbar from "../../organisms/navbar";
 import Main from "../../atoms/main";
+import Navbar from "../../organisms/navbar";
 
 interface Props {
   children?: ReactNode;

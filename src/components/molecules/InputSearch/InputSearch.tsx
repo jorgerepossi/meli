@@ -1,8 +1,8 @@
 import { ChangeEvent, FC, useState } from "react";
 import Flex from "../../atoms/flex";
 import SearchIcon from "../../atoms/searchIcon";
-import { SearchButton } from "./../../atoms/button/index";
-import Input from "./../../atoms/input/";
+import { SearchButton } from "../../atoms/button/index";
+import Input from "../../atoms/input";
 
 export const InputSearch: FC = () => {
   const [state, setState] = useState("");

@@ -53,28 +53,29 @@ router.get("/items/:id", async (req, res) => {
 
 router.get("/items", async (req, res) => {
   try {
-    const search =
-      "https://api.mercadolibre.com/sites/MLA/search?q=" +
-      req.query.search +
-      "&limit=4";
+    const search = "https://api.mercadolibre.com/sites/MLA/search?q=" + req.query.search + "&limit=4";
 
     const url = search;
     const response = await fetch(url);
     const { results } = await response.json();
     const cateID = results[0].category_id;
 
-    const searchCategory =
-      "https://api.mercadolibre.com//sites/MLA/search?category=" +
-      cateID +
-      "&limit=1#json";
+    const searchCategory = "https://api.mercadolibre.com//sites/MLA/search?category=" + cateID + "&limit=1";
     const responsecategory = await fetch(searchCategory);
     const cate = await responsecategory.json();
-    const categories = cate.filters[0].values
-      .map(({ path_from_root }) => {
-        return path_from_root;
-      })
-      .flat();
-    const cateName = categories.map(({ name }) => name);
+
+    const categories = cate.filters.map((item) => item.values);
+    const cateValue = categories.map((item) => item.map((name) => name.path_from_root));
+    const cateName = cateValue.map((catv) => {
+      return catv.map(
+
+        (name) => name.map((item) => {
+          return ` ${item.name} `
+        }
+        ))
+    })
+
+
 
     const mapResults = results.map(
       ({
@@ -104,7 +105,7 @@ router.get("/items", async (req, res) => {
               },
 
               picture: thumbnail,
-              condition: condition,
+              cond: condition,
               free_shipping: shipping.free_shipping,
             },
           ],
@@ -114,9 +115,12 @@ router.get("/items", async (req, res) => {
     );
 
     res.send(mapResults);
+
+
   } catch (error) {
     console.log(error);
   }
 });
+
 
 module.exports = router;

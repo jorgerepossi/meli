@@ -1,7 +1,8 @@
-import { FC, useState, useEffect } from "react";
+import { FC } from "react";
+
+import styled from "styled-components";
 import Container from "../../atoms/container";
 import Grid from "../../atoms/grid";
-import styled from "styled-components";
 
 interface Props {
   home?: string;

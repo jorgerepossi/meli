@@ -1,7 +1,8 @@
 import { FC, ReactNode } from "react";
+
+import styled from "styled-components";
 import Container from "../../atoms/container";
 import Grid from "../../atoms/grid";
-import styled from "styled-components";
 
 interface Props {
   children?: ReactNode;
@@ -10,7 +11,9 @@ interface Props {
 export const BreadcrumbList: FC<Props> = ({ children }): JSX.Element => {
   return (
     <Container center>
-      <Grid>{children}</Grid>
+      <Grid>
+        <BreadcrumbWrapper>{children}</BreadcrumbWrapper>
+      </Grid>
     </Container>
   );
 };
